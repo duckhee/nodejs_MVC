@@ -37,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session()); //passport use login sessions
 app.use('/static', express.static(path.join(__dirname, 'public')));
 //image를 읽어 오기 위한 폴더 위치 지정
-app.use('/upload', express.static(path.join(__dirname, '/images')));
+app.use('/images', express.static(path.join(__dirname, '/images')));
 
 
 
@@ -62,11 +62,12 @@ app.use('/test', test_router);
 //     res.render('./error/404');
 //     next(err);
 // });
+
 //404 error handler
 app.use(function(req, res, next) {
     res.status(404);
     res.render('./error/404');
-    next(err);
+    //next(err);
 });
 
 

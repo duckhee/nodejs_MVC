@@ -4,10 +4,10 @@ var Values = require('../models/values');
 exports.insert = function(value_info, callback) {
     models.Values.create({
         value: value_info.value,
-        field_id:value_info.field_id
+        field_id: value_info.field_id
     }).then(function(value) {
         callback(null, value);
-    }).catch(function(err){
+    }).catch(function(err) {
         callback(err, null);
         //throw err;
     });
@@ -15,14 +15,17 @@ exports.insert = function(value_info, callback) {
 
 exports.list = function(value_info, callback) {
     models.Values.findAll({
-         where:{
-        field_id: value_info,
-    },
-    limit:10
+        where: {
+            field_id: value_info,
+        },
+        limit: 10,
+        order: [
+            ['createAt', 'DESC']
+        ]
     }).then(function(values) {
         console.log(values);
         callback(null, values);
-    }).catch(function(err){
+    }).catch(function(err) {
         console.log('error');
         console.log(err.stack);
         callback(err, null);
