@@ -1,0 +1,4 @@
+#node js module
+node_modules
+#config db
+server/config/config.json
