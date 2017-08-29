@@ -2,8 +2,8 @@
     "mail": {
         "service": "gmail",
         "auth": {
-            "user": "pain9301@gmail.com",
-            "pass": "won1228A!"
+            "user": "",
+            "pass": ""
         }
     }
 }
