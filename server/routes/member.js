@@ -14,6 +14,10 @@ router.get('/profile', function(req, res, next) {
     res.render('./member/profile');
 });
 
+router.get('/modify', function(req, res, next) {
+    res.render('./member/modify_page');
+});
+
 router.get('/field_setting', function(req, res, next) {
     res.render('./setting/setting_page');
 });

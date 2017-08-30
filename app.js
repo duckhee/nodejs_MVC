@@ -43,8 +43,8 @@ app.use('/images', express.static(path.join(__dirname, '/images')));
 
 //라우터 매핑
 app.use('/', index);
-app.use('/member/', member);
-app.use('/channel/', channel);
+app.use('/users', member);
+app.use('/channel', channel);
 
 
 
