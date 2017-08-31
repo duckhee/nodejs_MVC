@@ -1,6 +1,13 @@
 var router = require('express').Router();
 var controllers = require('../controllers/value');
 var values = require('../models/values');
+var moment = require('moment'); //시간 모듈
+var fs = require('fs'); // 파일 저장
+
+var mqtt = require('mqtt'); //mqtt 모듈
+var client = mqtt.connect('mqtt://13.124.28.87'); //mqtt 서버 접속
+
+
 
 router.get('/', function(req, res, next) {
     console.log('first middleware');
@@ -13,8 +20,17 @@ router.get('/', function(req, res, next) {
     var value_info = req.query.channel;
     console.log(value_info);
     console.log(typeof(value_info));
+    var img_src = moment().format('YYYYMMDDHH') + ".jpg";
+    var folder_path = moment().format('YYYYMMDD');
+
+    fs.exists('./images/' + value_info + "/" + folder_path + "/" + img_src, function(exists) {
+        if (!exists) {
+            img_src = moment().add(-1, 'hour');
+        }
+    });
     res.render('test_index', {
-        channel: value_info
+        channel: value_info,
+        img_path: "/upload/" + value_info + "/" + folder_path + "/" + img_src
     });
 });
 
@@ -53,7 +69,8 @@ router.get('/ajax', function(req, res, next) {
         next();
     }
 });
-//insert data ?field=integer&insert=data 
+
+//insert data ?field=integer&value=data 
 router.get('/insert', function(req, res, next) {
     console.log('first insert');
     var field_id = req.query.field;
@@ -68,6 +85,22 @@ router.get('/insert', function(req, res, next) {
             }
         });
     }
+});
+
+// on/off command
+router.get('/onoff', function(req, res, next) {
+    var device_num = req.query.channel;
+    var command = req.query.command;
+
+    if (device_num) {
+
+        client.publish('/' + device_num + '/onoff', command);
+        res.json('success');
+
+    } else {
+        res.json('failed');
+    }
+
 });
 
 module.exports = router;
