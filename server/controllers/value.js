@@ -20,7 +20,7 @@ exports.list = function(value_info, callback) {
         },
         limit: 10,
         order: [
-            ['createAt', 'DESC']
+            ['createdAt', 'DESC']
         ]
     }).then(function(values) {
         console.log(values);
