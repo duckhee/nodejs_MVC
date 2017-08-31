@@ -37,8 +37,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session()); //passport use login sessions
 app.use('/static', express.static(path.join(__dirname, 'public')));
-//image를 읽어 오기 위한 폴더 위치 지정
-app.use('/images', express.static(path.join(__dirname, '/images')));
+//camera image 를 읽어 오기 위한 폴더 위치 지정
+app.use('/upload', express.static(path.join(__dirname, 'camera_images')));
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////

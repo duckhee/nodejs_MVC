@@ -18,20 +18,21 @@ router.get('/', function(req, res, next) {
 router.get('/', function(req, res, next) {
     console.log('second middleware');
     var value_info = req.query.channel;
-    console.log(value_info);
-    console.log(typeof(value_info));
     var img_src = moment().format('YYYYMMDDHH') + ".jpg";
     var folder_path = moment().format('YYYYMMDD');
-
+    console.log(img_src);
     fs.exists('./images/' + value_info + "/" + folder_path + "/" + img_src, function(exists) {
         if (!exists) {
             img_src = moment().add(-1, 'hour');
+            console.log(img_src);
         }
     });
+    console.log(img_src);
     res.render('test_index', {
         channel: value_info,
-        img_path: "/upload/" + value_info + "/" + folder_path + "/" + img_src
+        img_path: "/upload/" + value_info + "/" + '20170830' + "/" + '2017083015.jpg'
     });
+
 });
 
 
