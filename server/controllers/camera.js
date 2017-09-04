@@ -1,10 +1,12 @@
 var models = require('../models/index');
-var Camrea = require('../models/');
+var Camera = require('../models/');
 
 //camera path insert db
 exports.create_picture = function(camera_info, callback) {
-    models.Camrea.create({
-
+    models.Camera.create({
+        field_id:'1',
+        image_path:camera_info.image_path,
+        iamge_size:'10MB'
     }).then(function(row) {
         callback(null, row);
     }).catch(function(err) {
@@ -14,12 +16,13 @@ exports.create_picture = function(camera_info, callback) {
 
 //check path and camera path insert db 
 exports.check_create_picture = function(camera_info, callback) {
-    models.Camrea.findOrCreate({
+    models.Camera.findOrCreate({
         where: {
-
+            image_path:camera_info.image_path
         },
         defaults: {
-
+            image_path:camera_info.image_path,
+            image_size:'10MB'
         }
     }).then(function(result) {
         callback(null, result);
@@ -30,8 +33,10 @@ exports.check_create_picture = function(camera_info, callback) {
 
 //find image path select one
 exports.find_picture = function(camera_info, callback) {
-    models.Camrea.find({
-
+    models.Camera.find({
+        where: {field_id:'1'},
+        limit:1,
+        order: ['createdAt', 'DESC']
     }).then(function(result) {
         callback(null, result);
     }).catch(function(err) {
@@ -41,8 +46,8 @@ exports.find_picture = function(camera_info, callback) {
 
 //find image path all
 exports.list_find_picture = function(camera_info, callback) {
-    models.Camrea.findAll({
-
+    models.Camera.findAll({
+        where: {field_id:'1'},
     }).then(function(result) {
         callback(null, result);
     }).catch(function(err) {
@@ -52,7 +57,7 @@ exports.list_find_picture = function(camera_info, callback) {
 
 //delete image path 
 exports.delete_picture = function(camera_info, callback) {
-    models.Camrea.destory({
+    models.Camera.destroy({
         where: ''
     }).then(function(result) {
         callback(null, result);
@@ -63,7 +68,7 @@ exports.delete_picture = function(camera_info, callback) {
 
 //modify image path
 exports.modify_picture = function(camera_info, callback) {
-    models.Camrea.update({
+    models.Camera.update({
         field_name: ''
     }, {
         where: {

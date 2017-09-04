@@ -1,5 +1,6 @@
 var router = require('express').Router();
-var controllers = require('../controllers/value');
+var valueControllers = require('../controllers/value');
+var cameraControllers = require('../controllers/camera');
 var values = require('../models/values');
 var moment = require('moment'); //시간 모듈
 var fs = require('fs'); // 파일 저장
@@ -52,7 +53,7 @@ router.get('/ajax', function(req, res, next) {
     console.log(value_info);
     console.log(typeof(value_info));
     if (value_info) {
-        var data = controllers.list(value_info, function(err, value) {
+        var data = valueControllers.list(value_info, function(err, value) {
             if (value) {
                 res.json(value);
             } else if (err) {
@@ -71,6 +72,22 @@ router.get('/ajax', function(req, res, next) {
     }
 });
 
+//ajax images
+router.get('/ajaxpath', function(req, res) {
+    var channel = req.query.channel;
+    var camera_info = {};
+    cameraControllers.find_picture(camera_info, function(err, rows){
+        if(rows){
+            res.json(rows);
+        }else if(err){
+            res.json('failed');
+        }else{
+            res.json();
+        }
+    });
+
+});
+    
 //insert data ?field=integer&value=data 
 router.get('/insert', function(req, res, next) {
     console.log('first insert');
@@ -78,7 +95,7 @@ router.get('/insert', function(req, res, next) {
     var insert = req.query.value;
     var insert_info = { "field_id": field_id, "value": insert };
     if (insert_info) {
-        controllers.insert(insert_info, function(err, result) {
+        valueControllers.insert(insert_info, function(err, result) {
             if (result) {
                 res.json('success');
             } else {

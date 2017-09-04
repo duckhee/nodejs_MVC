@@ -158,7 +158,7 @@
                                     $.ajax({
 
                                         type: "GET",
-                                        url: "http://localhost:8080/test/ajax?channel=<%=channel%>",
+                                        url: "/test/ajax?channel=<%=channel%>",
                                         dataType: "json",
                                         error: function() {
                                             var ajax_data;
@@ -249,46 +249,64 @@
 
                                 };
 
-                                function getFormatDate(date) {
+                                // function getFormatDate(date) {
 
-                                    var year = date.getFullYear(); //yyyy
+                                //     var year = date.getFullYear(); //yyyy
 
-                                    var month = (1 + date.getMonth()); //M
+                                //     var month = (1 + date.getMonth()); //M
 
-                                    month = month >= 10 ? month : '0' + month; // month 두자리로 저장
+                                //     month = month >= 10 ? month : '0' + month; // month 두자리로 저장
 
-                                    var day = date.getDate(); //d
+                                //     var day = date.getDate(); //d
 
-                                    day = day >= 10 ? day : '0' + day; //day 두자리로 저장
+                                //     day = day >= 10 ? day : '0' + day; //day 두자리로 저장
 
-                                    return year + '' + month + '' + day;
+                                //     return year + '' + month + '' + day;
 
-                                }
+                                // }
 
-                                function getFormatDateHour(date) {
+                                // function getFormatDateHour(date) {
 
-                                    var hour = date.getHours(); //d
+                                //     var hour = date.getHours(); //d
 
-                                    hour = hour >= 10 ? hour : '0' + hour; //day 두자리로 저장
+                                //     hour = hour >= 10 ? hour : '0' + hour; //day 두자리로 저장
 
-                                    return hour;
+                                //     return hour;
 
-                                }
-                                var get_Image = function() {
-                                    var date = new Date();
-                                    var folername = getFormatDate(date);
-                                    var imgname = folername + date.getHours() + ".jpg";
-                                    var img_src = "/upload/<%=channel%>/" + folername + "/" + imgname;
-                                    $("#camera-info").find("img").attr("src", img_src + "?timestamp=" + new Date().getTime());
-                                };
-                                $(document).ready(function() {
-                                    $(function() {
+                                // }
+                                // var get_Image = function() {
+                                //     var date = new Date();
+                                //     var folername = getFormatDate(date);
+                                //     var imgname = folername + date.getHours() + ".jpg";
+                                //     var img_src = "/upload/<%=channel%>/" + folername + "/" + imgname;
+                                //     $("#camera-info").find("img").attr("src", img_src + "?timestamp=" + new Date().getTime());
+                                // };
+                                var get_image() = function(){
+                                    $.ajax({
+                                        type: "GET",
+                                        url: "/test/ajaxpath?channel=<%=channel%>",
+                                        dataType: "json",
+                                        error: function() {
+                                            var ajax_image;
+                                            ajax_image = null;
+                                        },
+                                        success: function(data) {
 
-                                        get_Data();
-                                        setInterval("get_Data()", 1000 * 60);
-                                        setInterval("get_Image()", 1000 * 60 * 60);
-
+                                            var ajax_data;
+                                            ajax_image = JSON.stringify(data);
+                                            ajax_image = data;
+                                            var img_src = "/upload/<%=channel%>" + ajax_image + ".jpg";
+                                            $("#camera-info").find("img").attr("src", img_src);
                                     });
+                                }
+                                $(document).ready(function() {
+                                    // $(function() {
+
+                                         get_Data();
+                                         setInterval("get_Data()", 1000);
+                                        setInterval("get_image()", 1000);
+
+                                    // });
                                     /*
                                      * Custom Label formatter
                                      * ----------------------

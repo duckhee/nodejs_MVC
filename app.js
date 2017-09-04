@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 
+//controllers 
+var cameraControllers = require('./server/controllers/camera');
 
 //router 등록
 var index = require('./server/routes/index');
@@ -83,6 +85,11 @@ io.sockets.on('connection', function(socket) {
                 if (err) {
                     console.log('File could not be saved: ' + err);
                 } else {
+                    var path = date_folder + "/"+ params.img_name;
+                    console.log('image path : ');
+                    console.log(path);
+                    camera_info = {"image_path":path};
+                    cameraControllers.check_create_picture();
                     console.log('File ' + params.img_name + " saved");
                 };
             });
